@@ -13,8 +13,13 @@ var wrongEl = document.getElementById("wrong");
 var btnStartEl = document.querySelector("#start-quiz");
 var timeleft = 75;
 var timerId;
+var questionEl = document.getElementById("question");
+var answerbuttonsEl = document.getElementById("answer-buttons");
 var timerEl = document.getElementById("timeholder");
+var score = 0;
 var gameover;
+
+var currentIndex = 0;
 
 var questions = [
   {
@@ -80,11 +85,22 @@ var startQuiz = function () {
   containerQuestionEl.classList.remove("hide");
   containerQuestionEl.classList.add("show");
   timerId = setInterval(setTime, 1000);
-  displayQuestion();
+  setQuestion();
 };
 
-var currentIndex = 0;
-function displayQuestion() {
+var setQuestion = function () {
+  resetAnswers();
+  displayQuestion([currentIndex]);
+};
+
+var resetAnswers = function () {
+  while (answerbuttonsEl.firstChild) {
+    answerbuttonsEl.removeChild(answerbuttonsEl.firstChild);
+  }
+};
+
+var displayQuestion = function () {
+  questionEl.innerText = questions[currentIndex].q;
   for (var i = 0; i < 4; i++) {
     var choicebutton = document.createElement("button");
     choicebutton.innerText = questions[currentIndex].choices[i];
@@ -92,9 +108,62 @@ function displayQuestion() {
     choicebutton.classList.add("choicebtn");
     choicebutton.setAttribute("value", questions[currentIndex].choices[i]);
     console.log(choicebutton);
-    containerQuestionEl.appendChild(choicebutton);
+    questionEl.appendChild(choicebutton);
+    answerbuttonsEl.appendChild(choicebutton);
+    choicebutton.addEventListener("click", answerCheck);
   }
-}
+};
+
+//display correct! on screen
+var answerCorrect = function () {
+  if ((correctEl.className = "hide")) {
+    correctEl.classList.remove("hide");
+    correctEl.classList.add("banner");
+    wrongEl.classList.remove("banner");
+    wrongEl.classList.add("hide");
+  }
+};
+//display wrong! on screen
+var answerWrong = function () {
+  if ((wrongEl.className = "hide")) {
+    wrongEl.classList.remove("hide");
+    wrongEl.classList.add("banner");
+    correctEl.classList.remove("banner");
+    correctEl.classList.add("hide");
+  }
+};
+
+//check if answer is correct
+var answerCheck = function (event) {
+  var selectedanswer = event.target;
+  if (questions[currentIndex].a === selectedanswer.innerText) {
+    answerCorrect();
+    score = score + 1;
+  } else {
+    answerWrong();
+    score = score - 5;
+    timeleft = timeleft - 10;
+  }
+  //go to next question, check if there is more questions
+  currentIndex++;
+  if ([currentIndex].length > currentIndex + 1) {
+    setQuestion();
+    //   } else {
+    //     gameover = "true";
+    //     showScore();
+    //   }
+  }
+};
+
+// var showScore = function () {
+//   containerQuestionEl.classList.add("hide");
+//   containerEndEl.classList.remove("hide");
+//   containerEndEl.classList.add("show");
+
+//   var scoreDisplay = document.createElement("p");
+//   scoreDisplay.innerText = "Your final score is " + score + "!";
+//   containerScoreEl.appendChild(scoreDisplay);
+// };
 
 //on start click, start game
 btnStartEl.addEventListener("click", startQuiz);
