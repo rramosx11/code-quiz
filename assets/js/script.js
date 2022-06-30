@@ -11,6 +11,8 @@ var listHighScoreEl = document.getElementById("high-score-list");
 var correctEl = document.getElementById("correct");
 var wrongEl = document.getElementById("wrong");
 var btnStartEl = document.querySelector("#start-quiz");
+var btnGoBackEl = document.querySelector("#go-back");
+var btnClearScoresEl = document.querySelector("#clear-high-scores");
 var timeleft;
 var timerId;
 var questionEl = document.getElementById("question");
@@ -18,6 +20,8 @@ var answerbuttonsEl = document.getElementById("answer-buttons");
 var timerEl = document.querySelector("#timeholder");
 var score = 0;
 var gameover;
+
+var HighScores = [];
 
 var currentIndex = 0;
 
@@ -167,5 +171,51 @@ var showScore = function () {
   containerScoreEl.appendChild(scoreDisplay);
 };
 
+//create high score values
+var createHighScore = function (event) {
+  event.preventDefault();
+  var initials = document.querySelector("#initials").value;
+  if (!initials) {
+    alert("Enter your intials!");
+    return;
+  }
+
+  formInitials.reset();
+
+  var HighScore = {
+    initials: initials,
+    score: score,
+  };
+
+  //push and sort scores
+  HighScores.push(HighScore);
+  HighScores.sort((a, b) => {
+    return b.score - a.score;
+  });
+
+  //clear visibile list to resort
+  while (listHighScoreEl.firstChild) {
+    listHighScoreEl.removeChild(listHighScoreEl.firstChild);
+  }
+  //create elements in order of high scores
+  for (var i = 0; i < HighScores.length; i++) {
+    var highscoreEl = document.createElement("li");
+    highscoreEl.ClassName = "high-score";
+    highscoreEl.innerHTML =
+      HighScores[i].initials + " - " + HighScores[i].score;
+    listHighScoreEl.appendChild(highscoreEl);
+  }
+};
+
 //on start click, start game
 btnStartEl.addEventListener("click", startQuiz);
+
+//on submit button -- enter or click
+formInitials.addEventListener("submit", createHighScore);
+
+//when view high-scores is clicked
+ViewHighScoreEl.addEventListener("click", displayHighScores);
+//Go back button
+btnGoBackEl.addEventListener("click", renderStartPage);
+//clear scores button
+btnClearScoresEl.addEventListener("click", clearScores);
