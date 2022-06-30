@@ -11,11 +11,11 @@ var listHighScoreEl = document.getElementById("high-score-list");
 var correctEl = document.getElementById("correct");
 var wrongEl = document.getElementById("wrong");
 var btnStartEl = document.querySelector("#start-quiz");
-var timeleft = 75;
+var timeleft;
 var timerId;
 var questionEl = document.getElementById("question");
 var answerbuttonsEl = document.getElementById("answer-buttons");
-var timerEl = document.getElementById("timeholder");
+var timerEl = document.querySelector("#timeholder");
 var score = 0;
 var gameover;
 
@@ -54,37 +54,38 @@ var questions = [
       "1. Javascript",
       "2. terminal/bash",
       "3. for loops",
-      "4. console log",
+      "4. console.log()",
     ],
   },
 ];
 
 var setTime = function () {
-  timeleft--;
-  timerEl.textContent = timeleft;
+  timeleft = 75;
+  //   timerEl.textContent = timeleft;
 };
 
-// // var timercheck = setInterval(function () {
-// //   console.log(timerEl);
-// //   var timerEl;
+var timercheck = setInterval(function () {
+  timerEl.innerText = timeleft;
+  timeleft--;
 
-//   if (gameover) {
-//     clearInterval(timercheck);
-//   }
+  if (gameover) {
+    clearInterval(timercheck);
+  }
 
-//   if (timeleft < 0) {
-//     showScore();
-//     timerEl.textContent = 0;
-//     clearInterval(timercheck);
-//   }
-// }, 1000);
+  if (timeleft < 0) {
+    showScore();
+    timerEl.innerText = 0;
+    clearInterval(timercheck);
+  }
+}, 1000);
 
 var startQuiz = function () {
   containerQuizEl.classList.add("hide");
   containerQuizEl.classList.remove("show");
   containerQuestionEl.classList.remove("hide");
   containerQuestionEl.classList.add("show");
-  timerId = setInterval(setTime, 1000);
+  //   timerId = setInterval(setTime, 1000);
+  setTime();
   setQuestion();
 };
 
@@ -138,32 +139,33 @@ var answerCheck = function (event) {
   var selectedanswer = event.target;
   if (questions[currentIndex].a === selectedanswer.innerText) {
     answerCorrect();
-    score = score + 1;
+    // score = score + 1;
   } else {
     answerWrong();
-    score = score - 5;
+    // score = score - 5;
     timeleft = timeleft - 10;
   }
   //go to next question, check if there is more questions
   currentIndex++;
-  if ([currentIndex].length > currentIndex + 1) {
+  if (questions.length > currentIndex + 1) {
     setQuestion();
-    //   } else {
-    //     gameover = "true";
-    //     showScore();
-    //   }
+  } else {
+    gameover = "true";
+    showScore();
   }
 };
 
-// var showScore = function () {
-//   containerQuestionEl.classList.add("hide");
-//   containerEndEl.classList.remove("hide");
-//   containerEndEl.classList.add("show");
+//display total score
 
-//   var scoreDisplay = document.createElement("p");
-//   scoreDisplay.innerText = "Your final score is " + score + "!";
-//   containerScoreEl.appendChild(scoreDisplay);
-// };
+var showScore = function () {
+  containerQuestionEl.classList.add("hide");
+  containerEndEl.classList.remove("hide");
+  containerEndEl.classList.add("show");
+
+  var scoreDisplay = document.createElement("p");
+  scoreDisplay.innerText = "Your final score is " + timeleft + "!";
+  containerScoreEl.appendChild(scoreDisplay);
+};
 
 //on start click, start game
 btnStartEl.addEventListener("click", startQuiz);
