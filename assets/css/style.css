@@ -34,6 +34,11 @@ header {
   padding-right: 20px;
 }
 
+h4 {
+  font-size: 1.5vw;
+  text-align: left;
+}
+
 /*Main content */
 .container {
   padding: 20px;
@@ -97,10 +102,6 @@ p {
   font-weight: bold;
 }
 
-#high-score {
-  text-align: left;
-}
-
 /*Button Styling */
 .btn {
   background: var(--secondary);
@@ -144,5 +145,34 @@ p {
 .choicebtn {
   width: 50%;
   text-align: left;
-  font-size: 3vw;
+  font-size: 1.5vw;
+}
+
+.banner {
+  font-size: 15px;
+  text-align: center;
+  color: rgba(199, 187, 187, 0.8);
+  font-style: italic;
+  margin: 0 100px;
+}
+
+.banner h2 {
+  border-top: 2px solid rgba(199, 187, 187, 0.8);
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 5px;
+}
+
+/* List for High Scores */
+
+ol {
+  list-style-type: number;
+}
+
+li:nth-child(odd) {
+  background-color: gray;
+}
+
+li {
+  font-size: 4vw;
 }
