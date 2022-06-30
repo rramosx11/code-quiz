@@ -44,12 +44,12 @@ var questions = [
   },
   {
     q: "String values must be enclosed within __________ when being assigned to variables.",
-    a: "4. parenthesis",
+    a: "3. quotes",
     choices: ["1. commas", "2. curly brackets", "3. quotes", "4. parenthesis"],
   },
   {
     q: "A very useful tool used during development and debugging for printing content to the debugger is:",
-    a: "4. console log",
+    a: "4. console.log()",
     choices: [
       "1. Javascript",
       "2. terminal/bash",
@@ -147,7 +147,7 @@ var answerCheck = function (event) {
   }
   //go to next question, check if there is more questions
   currentIndex++;
-  if (questions.length > currentIndex + 1) {
+  if (currentIndex < questions.length) {
     setQuestion();
   } else {
     gameover = "true";
