@@ -13,17 +13,17 @@ var wrongEl = document.getElementById("wrong");
 var btnStartEl = document.querySelector("#start-quiz");
 var btnGoBackEl = document.querySelector("#go-back");
 var btnClearScoresEl = document.querySelector("#clear-high-scores");
-var timeleft;
 var timerId;
 var questionEl = document.getElementById("question");
 var answerbuttonsEl = document.getElementById("answer-buttons");
 var timerEl = document.querySelector("#timeholder");
 var score = 0;
 var gameover;
-
+var timeleft = 75;
 var HighScores = [];
 
 var currentIndex = 0;
+timerEl.innerText = 0;
 
 var questions = [
   {
@@ -63,47 +63,37 @@ var questions = [
   },
 ];
 
-var setTime = function () {
-  timeleft = 75;
-  //   timerEl.textContent = timeleft;
-};
-
-var timercheck = setInterval(function () {
-  timerEl.innerText = timeleft;
+function timerCheck() {
   timeleft--;
+  timerEl.innerText = timeleft;
 
-  if (gameover) {
-    clearInterval(timercheck);
-  }
-
-  if (timeleft < 0) {
+  if (timeleft <= 0) {
+    clearInterval(timerId);
     showScore();
-    timerEl.innerText = 0;
-    clearInterval(timercheck);
   }
-}, 1000);
+}
 
 var startQuiz = function () {
+  timeleft = 75;
   containerQuizEl.classList.add("hide");
   containerQuizEl.classList.remove("show");
   containerQuestionEl.classList.remove("hide");
   containerQuestionEl.classList.add("show");
-  //   timerId = setInterval(setTime, 1000);
-  setTime();
+  timerId = setInterval(timerCheck, 1000);
   setQuestion();
 };
-
+// set next question
 var setQuestion = function () {
   resetAnswers();
   displayQuestion([currentIndex]);
 };
-
+// remoe answer buttons
 var resetAnswers = function () {
   while (answerbuttonsEl.firstChild) {
     answerbuttonsEl.removeChild(answerbuttonsEl.firstChild);
   }
 };
-
+// display question information
 var displayQuestion = function () {
   questionEl.innerText = questions[currentIndex].q;
   for (var i = 0; i < 4; i++) {
@@ -143,17 +133,17 @@ var answerCheck = function (event) {
   var selectedanswer = event.target;
   if (questions[currentIndex].a === selectedanswer.innerText) {
     answerCorrect();
-    // score = score + 1;
   } else {
-    answerWrong();
-    // score = score - 5;
     timeleft = timeleft - 10;
+    timerEl.innerText = timeleft;
+    answerWrong();
   }
   //go to next question, check if there is more questions
   currentIndex++;
   if (currentIndex < questions.length) {
     setQuestion();
   } else {
+    clearInterval(timerId);
     gameover = "true";
     showScore();
   }
@@ -184,15 +174,13 @@ var createHighScore = function (event) {
 
   var HighScore = {
     initials: initials,
-    score: score,
+    score: timeleft,
   };
 
   //push and sort scores
   HighScores.push(HighScore);
-  HighScores.sort((a, b) => {
-    return b.score - a.score;
-  });
 
+  console.log(HighScores);
   //clear visibile list to resort
   while (listHighScoreEl.firstChild) {
     listHighScoreEl.removeChild(listHighScoreEl.firstChild);
