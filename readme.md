@@ -29,3 +29,10 @@ THEN I can save my initials and score
 ### Deployed URL and Screenshots
 
 https://rramosx11.github.io/code-quiz/
+
+![Screenshot](https://github.com/rramosx11/code-quiz/blob/main/assets/images/code-quiz%20home.png)
+![Screenshot](https://github.com/rramosx11/code-quiz/blob/main/assets/images/code-quiz%20question%201.png)
+![Screenshot](https://github.com/rramosx11/code-quiz/blob/main/assets/images/code-quiz%20correct.png)
+![Screenshot](https://github.com/rramosx11/code-quiz/blob/main/assets/images/code-quiz%20wrong.png)
+![Screenshot](https://github.com/rramosx11/code-quiz/blob/main/assets/images/code-quiz%20final%20score.png)
+![Screenshot](https://github.com/rramosx11/code-quiz/blob/main/assets/images/code-quiz%20high%20score.png)
