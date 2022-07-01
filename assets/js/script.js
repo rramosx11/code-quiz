@@ -299,6 +299,7 @@ var renderStartPage = function () {
 };
 
 loadHighScore();
+
 //on start click, start game
 btnStartEl.addEventListener("click", startQuiz);
 
