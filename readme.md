@@ -30,7 +30,9 @@ The following animation demonstrates the application functionality:
 
 ![Demonstration of the Coding Quiz Challenge.](./Assets/04-web-apis-homework-demo.gif)
 
-### Review
+### Deployed URL and Screenshot
+
+https://rramosx11.github.io/code-quiz/
 
 You are required to submit the following for review:
 
